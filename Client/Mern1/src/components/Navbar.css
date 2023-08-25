@@ -1,0 +1,22 @@
+.navbar {
+    height: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.nav_brand h2 {
+    font-size: 2.5rem;
+}
+
+.nav_items {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav_items .nav_list a{
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
