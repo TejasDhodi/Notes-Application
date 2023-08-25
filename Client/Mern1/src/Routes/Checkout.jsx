@@ -9,7 +9,7 @@ const Checkout = () => {
   const getData = async () => {
     console.log("fetching data");
 
-    const res = await fetch("http://localhost:3000");
+    const res = await fetch("https://notes1-1308.onrender.com");
     console.log("Response received:", res);
 
     if (res.status === 400) {
@@ -35,7 +35,7 @@ const Checkout = () => {
 
   // t delete the data
   const handleDelete = async (id) => {
-    const res = await fetch(`http://localhost:3000/${id}`, {
+    const res = await fetch(`https://notes1-1308.onrender.com/${id}`, {
       method: "DELETE"
     })
 

@@ -23,7 +23,7 @@ const CreateUserData = () => {
 
     const { name, email, age } = userData;
 
-    const res = await fetch("http://localhost:3000/", {
+    const res = await fetch("https://notes1-1308.onrender.com/", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
