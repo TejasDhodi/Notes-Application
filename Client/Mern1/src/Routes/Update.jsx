@@ -11,6 +11,8 @@ const Update = () => {
         age: ""
     })
 
+
+
     const navigate = useNavigate();
 
     const handleInputs = (e) => {
@@ -21,47 +23,55 @@ const Update = () => {
 
     const { id } = useParams();
 
-    // const handleSingleUser = async (e) => {
-    //     try {
-    //         const res = await fetch(`http://localhost:3000/${id}`);
+    const handleGetSingleData = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/${id}`, {
+                method: 'GET',
+                headers: {
+                    "content-type": "application/json"
+                }
+            });
 
-    //         if (res.status === 5000) {
-    //             window.alert("unable to update the dataset")
-    //         } else {
-    //             const data = await res.json();
-    //             console.log("updated user data:", data);
-    //         }
-    //     } catch (error) {
-    //         console.log("Error:", error);
-    //         window.alert("error occur")
-    //     }
-    // }
+            const {foundUser} = await response.json();
+            console.log('Single User Data : ', foundUser);
 
-    // useEffect(() => {
-    //     handleSingleUser();
-    // }, [])
-
-    const handleEdit = async (e) => {
-        e.preventDefault();
-
-        const { name, email, age } = updateUserData;
-
-        const res = await fetch(`http://localhost:3000/${id}`, {
-            method: "PATCH",
-            body: JSON.stringify(updateUserData),
-            headers: {
-                "content-type": "application/json"
-            }
-        })
-
-        if (res.status === 5000) {
-            window.alert("unable to update the dataset")
-        } else {
-            const data = await res.json();
-            console.log("updated user data:", data);
-            navigate("/checkout")
+            setUpdateUserData({
+                name: foundUser.name,
+                email: foundUser.email,
+                age: foundUser.age
+            })
+            
+        } catch (error) {
+            alert('Unable to fill data');
+            console.log(error);
         }
     }
+
+    const handleEdit = async (e) => {
+        try {
+            e.preventDefault();
+
+            const res = await fetch(`http://localhost:3000/${id}`, {
+                method: "PATCH",
+                body: JSON.stringify(updateUserData),
+                headers: {
+                    "content-type": "application/json"
+                }
+            })
+            const data = await res.json();
+
+            if (res.status === 200) {
+                console.log("updated user data:", data);
+                navigate("/checkout")
+            }
+        } catch (error) {
+            alert('Unable to update data')
+        }
+    }
+
+    useEffect(() => {
+        handleGetSingleData();
+    }, [])
 
     return (
         <>

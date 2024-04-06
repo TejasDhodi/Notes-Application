@@ -1,56 +1,68 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import "./Routes.css"
 
 const Checkout = () => {
 
   const [userData, setUserData] = useState([]);
+
+  const navigate = useNavigate();
   // to get the data
   const getData = async () => {
-    console.log("fetching data");
+    try {
 
-    const res = await fetch("https://notes1-1308.onrender.com");
-    console.log("Response received:", res);
+      const res = await fetch("http://localhost:3000");
+      console.log("Response received:", res);
 
-    if (res.status === 400) {
-      window.alert("Unable to get data");
-    } else {
       const data = await res.json();
-      console.log("Data parsed:", data);
 
       // Check if the data structure matches your API response
       if (data && data["User Data"]) {
         setUserData(data["User Data"]);
       } else {
         console.log("Invalid data structure:", data);
-        window.alert("Received data has an invalid structure");
+        alert("Received data has an invalid structure");
       }
+
+
+    } catch (error) {
+      alert("Unable to get data");
+      console.log(error);
     }
   }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
 
   // t delete the data
   const handleDelete = async (id) => {
-    const res = await fetch(`https://notes1-1308.onrender.com/${id}`, {
-      method: "DELETE"
-    })
-
-    if (res.status === 500) {
-      window.alert("Can not delete this card")
-    } else {
+    try {
+      const res = await fetch(`http://localhost:3000/${id}`, {
+        method: "DELETE"
+      })
       const data = await res.json();
-      window.alert("deleted successfully")
-      console.log("data deleted", data);
+
+      if (res.status === 200) {
+        alert("deleted successfully")
+        getData();
+        console.log("data deleted", data);
+      }
+
+    } catch (error) {
+      alert('Can not delete this card')
+      console.log(error);
     }
+
 
   }
 
+  // To Navigate to update
+  const handleNavigate = (id) => {
+    navigate(`/${id}`)
+  }
 
-  console.log(userData)
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -65,7 +77,7 @@ const Checkout = () => {
                   <p>{e.email}</p>
                 </div>
                 <div className="card_control">
-                  <NavLink className='btn edit' to={`/${e._id}`}>Edit</NavLink>
+                  <button className='btn edit' onClick={() => handleNavigate(e._id)}>Edit</button>
                   <button className='btn delete' onClick={() => handleDelete(e._id)}>Delete</button>
                 </div>
               </div>

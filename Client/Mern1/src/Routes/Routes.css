@@ -39,6 +39,11 @@
     font-size: 1rem;
     background-color: #06364a;
     cursor: pointer;
+    transition: 300ms ease;
+}
+
+.form button:hover {
+    box-shadow: 0 0 15px #73d0f8;
 }
 
 /* CARDS */
@@ -46,27 +51,31 @@
 .card_container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 2.5rem;
     margin: 5rem 0;
 }
 
 .card {
-    border: 2px solid;
+    box-shadow: 0 0 15px;
+    border-radius: 1rem;
     height: auto;
     width: 15rem;
     text-align: center;
+    padding: 1rem;
 }
 
 .card_control  {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin: 1rem auto;
+    margin: 1rem auto 0;
 }
 
 .card_control .btn {
     border: none;
     padding: 0.5rem 1rem;
+    transition: 300ms ease;
 }
 
 .card_control .edit {
@@ -74,8 +83,18 @@
     color:forestgreen ;
 }
 
+.card_control .edit:hover {
+    font-weight: bolder;
+    box-shadow: 0 0 15px forestgreen;
+}
+
 .card_control .delete {
     border: 1px solid red;
     color:red ;
     padding: 0.5rem 1rem;
+}
+
+.card_control .delete:hover {
+    font-weight: bolder;
+    box-shadow: 0 0 15px red;
 }

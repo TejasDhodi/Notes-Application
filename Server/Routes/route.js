@@ -30,7 +30,6 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
 
     try {
-
         const showData = await User.find();
         res.status(200).json({ "User Data": showData })
 
@@ -42,9 +41,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-
         const getSingleUser = await User.findById({ _id: id }); //id = req.params.id
-        res.status(200).json({ "User Found": getSingleUser })
+        res.status(200).json({ "foundUser": getSingleUser })
 
     } catch (error) {
         res.status(400).json("Unable to get data")
@@ -57,7 +55,6 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
 
     try {
-
         const deleteSingleUser = await User.findByIdAndDelete({ _id: id });
         res.status(200).json({ "Deleted User": deleteSingleUser })
 
@@ -70,10 +67,8 @@ router.delete("/:id", async (req, res) => {
 // UPDATE Operations
 router.patch("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, email, age } = req.body;
 
     try {
-
         const updateUserData = await User.findByIdAndUpdate(id, req.body, {
             new: true
         });

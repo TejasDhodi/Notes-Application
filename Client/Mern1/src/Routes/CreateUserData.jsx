@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Routes.css"
-
 const CreateUserData = () => {
 
   const [userData, setUserData] = useState({
@@ -14,35 +13,39 @@ const CreateUserData = () => {
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
-
-    setUserData((prevData) => ({ ...prevData, [name]: value }))
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    try {
 
-    const { name, email, age } = userData;
+      e.preventDefault();
 
-    const res = await fetch("https://notes1-1308.onrender.com/", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "content-type": "application/json"
+      const res = await fetch("http://localhost:3000/", {
+        method: "POST",
+        body: JSON.stringify(userData),
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+
+      const data = res.json();
+
+      if (res.status === 422 || !data) {
+        alert("All Fields are mandatory")
+      } else if (res.status === 201) {
+        alert("Successfully added")
+        navigate("/checkout")
       }
-    })
 
-    const data = res.json();
+      console.log(userData);
 
-    if (res.status === 422 || !data) {
-      window.alert("All Fields are mandatory")
-    } else if (res.status === 400) {
-      window.alert("can not proceed further")
-    } else {
-      window.alert("Successfully added")
-      navigate("/checkout")
+    } catch (error) {
+      alert('Unable to create user')
     }
-
-    console.log(userData);
   }
 
   return (
